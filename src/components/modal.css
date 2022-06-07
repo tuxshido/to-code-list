@@ -47,7 +47,7 @@
 .modal-lft {
     text-align: left;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 16px;
     font-size: 18px;
 }
 
@@ -68,12 +68,12 @@
 
 .m-b-icon {
     border: none;
-    color: #525252;
+    /* color: #525252; */
     background-color: aliceblue;
 }
 
-.m-icon,
+/* .m-icon,
 .m-b-icon {
     font-size: 25px;
     margin: 0 5px 0 12px;
-}
+} */

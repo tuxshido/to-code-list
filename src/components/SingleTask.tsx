@@ -13,14 +13,7 @@ const SingleTodo: React.FC<{
     nextStage: Array<Task>;
     setNextStage: React.Dispatch<React.SetStateAction<Array<Task>>>;
 }> = ({ index, task, toCode, setToCode, nextStage, setNextStage }) => {
-    // const [edit, setEdit] = useState<boolean>(false);
-    // const [editTask, setEditTask] = useState<string>(task.todo);
     const [modalOpen, setModalOpen] = useState(false);
-
-    // const inputRef = useRef<HTMLInputElement>(null);
-    // useEffect(() => {
-    //     inputRef.current?.focus();
-    // }, [edit]);
 
     let modalBkgColor = "dragoffcode";
     if (task.stage === 1) {

@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./App.css";
 import InputTask from "./components/InputTask";
 import TaskList from "./components/TaskList";
+import NavBar from "./components/NavBar";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Task } from "./models/models";
 
 const App: React.FC = () => {
+    const [loginStatus] = useState<boolean>(false);
     const [task, setTask] = useState<string>("");
     const [toCode, setToCode] = useState<Array<Task>>([]);
     const [toTest, setToTest] = useState<Array<Task>>([]);
@@ -91,14 +93,10 @@ const App: React.FC = () => {
     };
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <div className="App">
-                <span className="heading">To Code List</span>
-                <InputTask
-                    task={task}
-                    setTask={setTask}
-                    handleAdd={handleAdd}
-                />
+        <div className="App">
+            <NavBar loginStatus={loginStatus} />
+            <InputTask task={task} setTask={setTask} handleAdd={handleAdd} />
+            <DragDropContext onDragEnd={onDragEnd}>
                 <TaskList
                     toCode={toCode}
                     setToCode={setToCode}
@@ -109,8 +107,8 @@ const App: React.FC = () => {
                     done={done}
                     setDone={setDone}
                 />
-            </div>
-        </DragDropContext>
+            </DragDropContext>
+        </div>
     );
 };
 

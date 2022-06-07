@@ -61,6 +61,9 @@
     margin: 0 3px 0 3px;
 }
 
+.mainBkgColor {
+    background-color: #b4d4e8;
+}
 .dragtocode {
     background-color: #b4eecd;
 }
