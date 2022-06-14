@@ -39,6 +39,8 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                     and deploy. You can drag'n drop it to another column. You
                     can edit its information and it will be circled in red if
                     the due date is over.
+                    <br /> To save your information, You need to login with your
+                    Google account first.
                 </p>
             </div>
             <div className="modal-lft">
@@ -51,8 +53,7 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                             <AiFillCloseCircle />
                         </span>
                     </td>
-                    <td>To close the window</td>
-                    <td>Working</td>
+                    <td>To close a window</td>
                 </tr>
                 <tr>
                     <td>
@@ -61,7 +62,6 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                         </span>
                     </td>
                     <td>To login</td>
-                    <td>Not implemented</td>
                 </tr>
                 <tr>
                     <td>
@@ -70,7 +70,6 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                         </span>
                     </td>
                     <td>To logout</td>
-                    <td>Not implemented</td>
                 </tr>
                 <tr>
                     <td>
@@ -79,17 +78,7 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                         </span>
                     </td>
                     <td>To get information</td>
-                    <td>Working</td>
                 </tr>
-                <tr>
-                    <td>
-                        <span className="m-icon">
-                            <AiFillSave />
-                        </span>
-                    </td>
-                    <td>In the navbar, to save your session</td>
-                    <td>Not implemented</td>
-                </tr>{" "}
                 <tr>
                     <td>
                         <span className="m-icon">
@@ -97,7 +86,6 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                         </span>
                     </td>
                     <td>To view and edit a task</td>
-                    <td>Working</td>
                 </tr>
                 <tr>
                     <td>
@@ -106,7 +94,6 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                         </span>
                     </td>
                     <td>To edit an information fied on a task</td>
-                    <td>Working</td>
                 </tr>
                 <tr>
                     <td>
@@ -114,21 +101,8 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                             <AiFillSave />
                         </span>
                     </td>
-                    <td>
-                        In the settings, save your modifications to the current
-                        session
-                    </td>
-                    <td>Working</td>
+                    <td>To save your modifications</td>
                 </tr>{" "}
-                <tr>
-                    <td>
-                        <span className="m-icon">
-                            <AiFillEdit />
-                        </span>
-                    </td>
-                    <td>To edit the Information on a task</td>
-                    <td>Working</td>
-                </tr>
                 <tr>
                     <td>
                         <span className="m-icon">
@@ -136,7 +110,6 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                         </span>
                     </td>
                     <td>To delete a task</td>
-                    <td>Working</td>
                 </tr>
                 <tr>
                     <td>
@@ -145,7 +118,6 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                         </span>
                     </td>
                     <td>To move a task to the next column</td>
-                    <td>Working</td>
                 </tr>
             </table>
         </div>

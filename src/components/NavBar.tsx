@@ -1,20 +1,39 @@
 import React, { useState } from "react";
+import { signInWithGoogle } from "../models/Firebase";
 import "./styles.css";
+import { UserAuth } from "../context/AuthContext";
 import Modal from "./Modal";
 import ModalInfo from "./ModalInfo";
-import { AiFillSave } from "react-icons/ai";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 
 interface props {
-    loginStatus: boolean;
+    //loggedIn: boolean;
     //     task: string;
-    //     setTask: React.Dispatch<React.SetStateAction<string>>;
+    //setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
     //     handleAdd: (e: React.FormEvent) => void;
 }
 
-const NavBar: React.FC<props> = (loginStatus) => {
+const NavBar: React.FC<props> = () => {
     const [modalInfo, setModalInfo] = useState(false);
+
+    const handleLogin = async () => {
+        const { user } = await signInWithGoogle();
+        console.log(user);
+        console.log(user.displayName);
+        //localStorage.setItem("name", name);
+        //setLoggedIn(true);
+    };
+
+    const { user, logOut } = UserAuth();
+
+    const handleSignOut = async () => {
+        try {
+            await logOut();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
@@ -31,12 +50,16 @@ const NavBar: React.FC<props> = (loginStatus) => {
                 </div>
                 <ul className="navUl">
                     <li>
-                        {!loginStatus ? (
-                            <span className="m-icon">
+                        {user?.displayName ? (
+                            <span className="m-icon" onClick={handleSignOut}>
+                                {user.displayName + " "}
                                 <BiLogOut />
                             </span>
                         ) : (
-                            <span className="m-icon">
+                            <span
+                                className="m-icon"
+                                onClick={() => handleLogin()}
+                            >
                                 <BiLogIn />
                             </span>
                         )}
@@ -48,15 +71,6 @@ const NavBar: React.FC<props> = (loginStatus) => {
                         >
                             <BsFillInfoCircleFill />
                         </span>
-                    </li>
-                    <li>
-                        {!loginStatus ? (
-                            <span className="m-icon">
-                                <AiFillSave />
-                            </span>
-                        ) : (
-                            ""
-                        )}
                     </li>
                 </ul>
             </header>

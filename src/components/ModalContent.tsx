@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { Task } from "../models/models";
+import { UserAuth } from "../context/AuthContext";
+import { db } from "../models/Firebase";
+import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import {
     AiFillEdit,
     AiFillDelete,
@@ -33,13 +36,14 @@ const ModalContent: React.FC<Props> = ({
     const [editTodo, setEditTodo] = useState<string>(task.todo);
     const [editNote, setEditNote] = useState<string>(task.note);
     const [editDate, setEditDate] = useState<string>(task.delivery.toString());
+    const { user } = UserAuth();
 
     const inputRefTd = useRef<HTMLInputElement>(null);
     useEffect(() => {
         inputRefTd.current?.focus();
     }, [editTd]);
 
-    const inputRefNt = useRef<HTMLInputElement>(null);
+    const inputRefNt = useRef<HTMLTextAreaElement>(null);
     useEffect(() => {
         inputRefNt.current?.focus();
     }, [editNt]);
@@ -49,28 +53,40 @@ const ModalContent: React.FC<Props> = ({
         inputRefDt.current?.focus();
     }, [editDt]);
 
-    const handleEditTodo = (e: React.FormEvent, id: number) => {
-        e.preventDefault();
+    const handleEditTodo = async (id: number) => {
+        //e.preventDefault();
         setToCode(
             toCode.map((task) =>
                 task.id === id ? { ...task, todo: editTodo } : task
             )
         );
+        if (user) {
+            //const usersCollectionRef = collection(db, user.uid);
+            const userDoc = doc(db, user.uid + "/" + id);
+            const newFields = { todo: editTodo };
+            await updateDoc(userDoc, newFields);
+        }
         setEditTd(false);
     };
 
-    const handleEditNote = (e: React.FormEvent, id: number) => {
-        e.preventDefault();
+    const handleEditNote = async (id: number) => {
+        //e.preventDefault();
         setToCode(
             toCode.map((task) =>
                 task.id === id ? { ...task, note: editNote } : task
             )
         );
+        if (user) {
+            //const usersCollectionRef = collection(db, user.uid);
+            const userDoc = doc(db, user.uid + "/" + id);
+            const newFields = { note: editNote };
+            await updateDoc(userDoc, newFields);
+        }
         setEditNt(false);
     };
 
-    const handleEditDate = (e: React.FormEvent, id: number) => {
-        e.preventDefault();
+    const handleEditDate = async (id: number) => {
+        //e.preventDefault();
         setToCode(
             toCode.map((task) =>
                 task.id === id
@@ -78,16 +94,32 @@ const ModalContent: React.FC<Props> = ({
                     : task
             )
         );
+        if (user) {
+            //const usersCollectionRef = collection(db, user.uid);
+            const userDoc = doc(db, user.uid + "/" + id);
+            const delivery = new Date(editDate);
+            const newFields = {
+                year: delivery.getFullYear(),
+                month: delivery.getMonth(),
+                date: delivery.getDate(),
+            };
+            await updateDoc(userDoc, newFields);
+        }
         setEditDt(false);
     };
 
-    const handleDelete = (id: number) => {
+    const handleDelete = async (id: number) => {
         setToCode(toCode.filter((task) => task.id !== id));
+        const userDoc = doc(db, user.uid + "/" + id);
+        await deleteDoc(userDoc);
     };
 
-    const handleNextStage = (task: Task, id: number) => {
+    const handleNextStage = async (task: Task, id: number) => {
         setToCode(toCode.filter((task) => task.id !== id));
         task.stage += 1;
+        const userDoc = doc(db, user.uid + "/" + id);
+        const newFields = { stage: task.stage };
+        await updateDoc(userDoc, newFields);
         setNextStage([task, ...nextStage]);
     };
 
@@ -100,8 +132,8 @@ const ModalContent: React.FC<Props> = ({
             <div className="modal-lft">
                 <span>Title :</span>
             </div>
-            <form
-                onSubmit={(e) => handleEditTodo(e, task.id)}
+            <div
+                //onSubmit={(e) => handleEditTodo(e, task.id)}
                 className="modal__single"
             >
                 {editTd ? (
@@ -109,15 +141,19 @@ const ModalContent: React.FC<Props> = ({
                         value={editTodo}
                         onChange={(e) => setEditTodo(e.target.value)}
                         className="task__input--text"
+                        ref={inputRefTd}
                     />
                 ) : (
                     <span className="task__input--text">{task.todo}</span>
                 )}
                 <div>
                     {editTd ? (
-                        <button type="submit" className="m-b-icon">
+                        <span
+                            className="m-icon"
+                            onClick={() => handleEditTodo(task.id)}
+                        >
                             <AiFillSave />
-                        </button>
+                        </span>
                     ) : (
                         <span
                             className="m-icon"
@@ -131,12 +167,12 @@ const ModalContent: React.FC<Props> = ({
                         </span>
                     )}
                 </div>
-            </form>
+            </div>
             <div className="modal-lft">
                 <span>Additionnal Comments :</span>
             </div>
-            <form
-                onSubmit={(e) => handleEditNote(e, task.id)}
+            <div
+                //onSubmit={(e) => handleEditNote(e, task.id)}
                 className="modal__single"
             >
                 {editNt ? (
@@ -145,18 +181,22 @@ const ModalContent: React.FC<Props> = ({
                         onChange={(e) => setEditNote(e.target.value)}
                         className="task__input--text"
                         cols={40}
+                        ref={inputRefNt}
                     />
                 ) : (
                     <span className="task__input--text">{task.note}</span>
                 )}
                 <div>
                     {editNt ? (
-                        <button type="submit" className="m-b-icon">
+                        <span
+                            className="m-icon"
+                            onClick={() => handleEditNote(task.id)}
+                        >
                             <AiFillSave />
-                        </button>
+                        </span>
                     ) : (
                         <span
-                            className="m-b-icon"
+                            className="m-icon"
                             onClick={() => {
                                 if (!editNt) {
                                     setEditNt(!editNt);
@@ -167,26 +207,28 @@ const ModalContent: React.FC<Props> = ({
                         </span>
                     )}
                 </div>
-            </form>
+            </div>
             <div className="modal-lft">
                 <span>Due Date :</span>
             </div>
-            <form
-                onSubmit={(e) => handleEditDate(e, task.id)}
+            <div
+                //onSubmit={(e) => handleEditDate(e, task.id)}
                 className="modal__single"
             >
                 {editDt ? (
-                    <textarea
+                    <input
+                        type="date"
                         value={editDate}
                         onChange={(e) => setEditDate(e.target.value)}
                         className="task__input--text"
-                        cols={40}
+                        //cols={40}
+                        ref={inputRefDt}
                     />
                 ) : (
                     <span className="task__input--text">
                         {task.delivery.getDate() +
                             "-" +
-                            task.delivery.getMonth() +
+                            String(Number(task.delivery.getMonth()) + 1) +
                             "-" +
                             task.delivery.getFullYear()}
                         {/* .toString()} */}
@@ -194,12 +236,15 @@ const ModalContent: React.FC<Props> = ({
                 )}
                 <div>
                     {editDt ? (
-                        <button type="submit" className="m-b-icon">
+                        <span
+                            className="m-icon"
+                            onClick={() => handleEditDate(task.id)}
+                        >
                             <AiFillSave />
-                        </button>
+                        </span>
                     ) : (
                         <span
-                            className="m-b-icon"
+                            className="m-icon"
                             onClick={() => {
                                 if (!editDt) {
                                     setEditDt(!editDt);
@@ -210,7 +255,7 @@ const ModalContent: React.FC<Props> = ({
                         </span>
                     )}
                 </div>
-            </form>
+            </div>
             <div className="modalIcons">
                 <span className="m-icon" onClick={() => setModalOpen(false)}>
                     <AiFillCloseCircle />

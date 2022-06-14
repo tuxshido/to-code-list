@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import "./styles.css";
 
 interface props {
-    task: string;
-    setTask: React.Dispatch<React.SetStateAction<string>>;
+    todo: string;
+    setTodo: React.Dispatch<React.SetStateAction<string>>;
     handleAdd: (e: React.FormEvent) => void;
 }
 
-const InputTask: React.FC<props> = ({ task, setTask, handleAdd }) => {
+const InputTask: React.FC<props> = ({ todo, setTodo, handleAdd }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -21,9 +21,9 @@ const InputTask: React.FC<props> = ({ task, setTask, handleAdd }) => {
             <input
                 type="text"
                 placeholder="Enter a Task"
-                value={task}
+                value={todo}
                 ref={inputRef}
-                onChange={(e) => setTask(e.target.value)}
+                onChange={(e) => setTodo(e.target.value)}
                 className="input__box"
             />
             <button type="submit" className="input_submit">
