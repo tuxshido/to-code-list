@@ -20,7 +20,7 @@ const NavBar: React.FC<props> = () => {
     const handleLogin = async () => {
         const { user } = await signInWithGoogle();
         //console.log(user);
-        //console.log(user.displayName);
+        console.log(user.displayName);
         //localStorage.setItem("name", name);
         //setLoggedIn(true);
     };
