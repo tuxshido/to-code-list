@@ -110,16 +110,20 @@ const ModalContent: React.FC<Props> = ({
 
     const handleDelete = async (id: number) => {
         setToCode(toCode.filter((task) => task.id !== id));
-        const userDoc = doc(db, user.uid + "/" + id);
-        await deleteDoc(userDoc);
+        if (user) {
+            const userDoc = doc(db, user.uid + "/" + id);
+            await deleteDoc(userDoc);
+        }
     };
 
     const handleNextStage = async (task: Task, id: number) => {
         setToCode(toCode.filter((task) => task.id !== id));
         task.stage += 1;
-        const userDoc = doc(db, user.uid + "/" + id);
-        const newFields = { stage: task.stage };
-        await updateDoc(userDoc, newFields);
+        if (user) {
+            const userDoc = doc(db, user.uid + "/" + id);
+            const newFields = { stage: task.stage };
+            await updateDoc(userDoc, newFields);
+        }
         setNextStage([task, ...nextStage]);
     };
 

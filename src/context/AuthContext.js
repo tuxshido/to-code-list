@@ -10,7 +10,7 @@ import { auth } from "../models/Firebase";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(null);
 
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider();
@@ -24,7 +24,7 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            console.log("User", currentUser);
+            //console.log("User", currentUser);
         });
         return () => {
             unsubscribe();

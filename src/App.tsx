@@ -36,18 +36,18 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const getTaskArrays = async () => {
-            if (user != null) {
+            if (user) {
                 const usersCollectionRef = collection(db, String(user.uid));
                 const data = await getDocs(usersCollectionRef);
                 let code: Task[] = [];
                 let test: Task[] = [];
                 let deploy: Task[] = [];
                 let todone: Task[] = [];
-                console.log(data.docs);
+                //console.log(data.docs);
                 data.docs.forEach((doc) => {
                     //}); data.docs doc) => {
                     // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data().stage);
+                    //console.log(doc.id, " => ", doc.data().stage);
                     //(doc) => {
                     const newTask: Task = {
                         id: Number(doc.data().id),
@@ -84,7 +84,7 @@ const App: React.FC = () => {
                 setToCode(code);
             }
         };
-        if (user !== null) {
+        if (user) {
             getTaskArrays();
         } else {
             setDone([]);
@@ -140,7 +140,7 @@ const App: React.FC = () => {
     const onDragEnd = (result: DropResult) => {
         const { destination, source } = result;
 
-        console.log(result);
+        //console.log(result);
 
         if (!destination) {
             return;

@@ -26,19 +26,21 @@ const ModalInfo: React.FC<Props> = ({ setModalInfo }) => {
                 <p>
                     To-Code-list is an agile managment tool for your personnal
                     project. <br />
-                    It is a fork of a To-Do-List project made by Piyush Agarwal
+                    It is a fork of a To-Do-List app made by Piyush Agarwal
                     (Roadside Coder):{" "}
                     <a
                         href="https://github.com/piyush-eon/react-typescript-taskify"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        github.com/piyush-eon/react-typescript-taskify
-                    </a>{" "}
-                    <br /> With To-Code-List, you create a task to code, test
-                    and deploy. You can drag'n drop it to another column. You
-                    can edit its information and it will be circled in red if
-                    the due date is over.
+                        link to Piyush's GitHub
+                    </a>
+                    . Modal windows, Goolgle authentification, cloud database,
+                    among other things have been added to this project.
+                    <br /> With To-Code-List, you can create a task to code,
+                    test and deploy. You can drag'n drop it to another column.
+                    You can edit its information and it will be circled in red
+                    if the due date is over.
                     <br /> To save your information, You need to login with your
                     Google account first.
                 </p>
